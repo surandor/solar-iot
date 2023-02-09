@@ -1,0 +1,70 @@
+/*
+* 
+*      数据库初始化脚本
+*	数据库：mysql5.6
+*   脚本版本：V1.0
+*
+*/ DROP DATABASE
+IF
+	EXISTS `charger_slave`;
+CREATE DATABASE
+IF
+	NOT EXISTS `charger_slave` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `charger_slave`;
+
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE
+IF
+	EXISTS `t_device_data`;
+CREATE TABLE `t_device_data` (
+`id` BIGINT NOT NULL auto_increment,
+`created_datetime` DATETIME NOT NULL COMMENT '数据创建时间',
+`sn` VARCHAR ( 20 ) NOT NULL COMMENT '序列号',
+`dyear` INT NOT NULL COMMENT '数据年',
+`dmonth` INT NOT NULL COMMENT '数据月',
+`dday` INT NOT NULL COMMENT '数据日',
+`data_name` VARCHAR ( 20 ) NOT NULL COMMENT '数据名称',
+`data_value` VARCHAR ( 20 ) NOT NULL COMMENT '数据值',
+`data_expr` VARCHAR ( 20 ) NOT NULL COMMENT '数据表达式',
+`enabled` BIT NOT NULL COMMENT '启用状态',
+PRIMARY KEY ( `id`, `created_datetime` ) 
+) COMMENT = '数据表' PARTITION BY RANGE ( YEAR ( created_datetime ) ) (
+	PARTITION p0
+	VALUES
+		LESS THAN ( 2021 ),
+		PARTITION p1
+	VALUES
+		LESS THAN ( 2022 ),
+		PARTITION p2
+	VALUES
+		LESS THAN ( 2023 ),
+		PARTITION p3
+	VALUES
+		LESS THAN ( 2024 ),
+		PARTITION p4
+	VALUES
+		LESS THAN ( 2025 ),
+		PARTITION p5
+	VALUES
+		LESS THAN ( 2026 ),
+		PARTITION p6
+	VALUES
+		LESS THAN ( 2027 ),
+		PARTITION p7
+	VALUES
+		LESS THAN ( 2028 ),
+		PARTITION p8
+	VALUES
+		LESS THAN ( 2029 ),
+		PARTITION p9
+	VALUES
+		LESS THAN ( 2030 ),
+		PARTITION p10
+	VALUES
+		LESS THAN ( 2031 ),
+		PARTITION p11
+	VALUES
+		LESS THAN MAXVALUE 
+	);
+
+SET FOREIGN_KEY_CHECKS = 1;
